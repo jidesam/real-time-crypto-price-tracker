@@ -7,6 +7,10 @@ import { CoinListComponent } from './coin-list/coin-list.component';
 
 import { CoinDetailComponent } from './coin-detail/coin-detail.component';
 import { SharedModule } from '../shared/shared.module';
+import {MatTableModule} from '@angular/material/table';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -19,7 +23,11 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     LandingRoutingModule,
-    SharedModule
+    SharedModule,
+    MatTableModule,
+    NgxPaginationModule,
+    MatMenuModule,
+    MatPaginatorModule
   
   ]
 })
