@@ -1,1 +1,112 @@
 <app-header></app-header>
+
+<div class="banner w-full">
+  <div class="p-6">
+    <h1 class="text-white text-center text-3xl">Real Time Crypto Price Tracker</h1>
+    <h4 class="text-white text-center md:text-base">Check all crypto currencies Prices and Latest developments</h4>
+  </div>
+  <div class="animations flex flex-wrap lg:grid lg:grid-cols-5 mx-auto  h-[60vh] overflow-hidden  ">
+    <div *ngFor="let banner of bannaData" class=" " >
+     <div>
+       <div class="bg-white w-[100px] lg:w-[200px] mx-4 border border-solid my-4 rounded-lg cursor-pointer">
+       <img [src]="banner?.image" alt="" class="w-[150px] mx-auto px-4 py-4">
+       <div class="text-center font-medium">{{banner.symbol | uppercase}} <span class="text-red-500 font-normal text-center">{{banner.price_change_percentage_24h}}%</span></div>
+       <p class="text-center">{{banner.current_price | currency: 'USD'}}</p>
+      </div>
+     </div>
+    </div>
+    <!-- <marquee [behavior]="scroll" onmouseover="stop()" onmouseout="start()"></marquee> -->
+    <div></div>
+  </div>
+</div>
+
+
+
+<div class="m-6 p-4 w-[90%] px-20">
+ <div class="flex  gap-60 items-center py-8 w-[70%] mx-auto ">
+        <div class="  flex gap-4 w-[40%] px-4 py-2 bg-[#EFF2F6] rounded-xl">
+        <img src="/assets/Images/search.svg" alt="">
+        <input type="text" placeholder="Search" class="border-0 outline-none bg-[#EFF2F6]">
+       </div>
+       <div class="flex gap-4 items-center cursor-pointer">
+             <button mat-button [matMenuTriggerFor]="beforeMenu" class="flex items-center gap-4 border px-2 py-2 rounded-md">
+                <span class="text-[#003CAB]">Filter</span>
+                <img src="assets/Images/keyboard_arrow_down_24px.svg" alt="">
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before" class="pr-8 px-2">
+                <div class="font-[500]">Filter by</div>
+                <button class="text-[#6E7A91] py-2 px-2 hover:rounded-md hover:bg-[#F8F9FB] hover:w-full hover:text-left hover:items-center">Current Price </button>
+                <button  class="text-[#6E7A91] py-2 px-2 hover:rounded-md hover:bg-[#F8F9FB] hover:w-full hover:text-left hover:items-center">Price change percentage</button>
+                <button  class="text-[#6E7A91] py-2 px-2 hover:rounded-md hover:bg-[#F8F9FB] hover:w-full hover:text-left hover:items-center">Market Cap</button>
+                
+            </mat-menu>
+       </div>
+       </div>
+  <!-- <table class="  lg:w-[90%]">
+  <thead class=" w-full ">
+    <tr class="bg-[#eee] py-4">
+      <th class="w-[10%] text-center ">index</th>
+      <th class="w-[15%] text-center">Symbol</th>
+      <th class="w-[20%] text-center">Current_Price</th>
+      <th class="w-[30%] text-center">price_change_percentage_24h</th>
+      <th class="w-[25%] text-center">market_cap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of dataTable |  paginate: { itemsPerPage: 10, currentPage: p }, let i = index ">
+      <td class="w-[10%] text-center">{{i+1}}</td>
+      <td class="w-[15%] text-center">{{data.symbol}}</td>
+      <td class="w-[20%] text-center">{{data.current_price}}</td>
+      <td class="w-[30%] text-center">{{data.price_change_percentage_24h}}</td>
+      <td class="w-[25%] text-center">{{data.market_cap}}</td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls (pageChange)="p = $event" class="flex justify-end py-4 ">
+
+</pagination-controls> -->
+
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event) "
+       class="mat-elevation-z8 w-full shadow-none border border-solid rounded-lg">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="symbol">
+    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+      Symbol
+    </th>
+    <td  class="text-center flex gap-2 items-center" mat-cell *matCellDef="let element">
+      <!-- <img [src]="element.image" alt="" class="w-[20px]"> -->
+     <div>
+       {{element.symbol}}
+     </div> </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="currentPrice" class="border-0">
+    <th  class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by currentPrice">
+      Current Price
+    </th>
+    <td   class="text-center" mat-cell *matCellDef="let element"> {{element.current_price}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="price_change_percentage_24h">
+    <th  class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price_change_percentage_24h">
+      price change in 24h
+    </th>
+    <td  class="text-center" mat-cell *matCellDef="let element"> {{element.price_change_percentage_24h}}% </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Market_Cap">
+    <th  class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market_cap">
+      Market Capitalization
+    </th>
+    <td   class="text-center" mat-cell *matCellDef="let element"> {{element.market_cap}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select Page Of Users"></mat-paginator>
+</div>
