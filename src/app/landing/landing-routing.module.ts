@@ -7,7 +7,7 @@ import { LandingComponent } from './landing.component';
 
 const routes: Routes = [{ path: '', component: CoinListComponent  },
                       {path :'coin-list', component:CoinListComponent },
-                    {path:'coin-details', component: CoinDetailComponent}];
+                    {path:'coin-details/:id', component: CoinDetailComponent}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

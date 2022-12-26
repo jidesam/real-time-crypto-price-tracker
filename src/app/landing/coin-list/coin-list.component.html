@@ -11,7 +11,7 @@
        <div class="bg-white w-[100px] lg:w-[200px] mx-4 border border-solid my-4 rounded-lg cursor-pointer">
        <img [src]="banner?.image" alt="" class="w-[150px] mx-auto px-4 py-4">
        <div class="text-center font-medium">{{banner.symbol | uppercase}} <span class="text-red-500 font-normal text-center">{{banner.price_change_percentage_24h}}%</span></div>
-       <p class="text-center">{{banner.current_price | currency: 'USD'}}</p>
+       <p >{{banner.current_price | currency: 'USD'}}</p>
       </div>
      </div>
     </div>
@@ -24,11 +24,11 @@
 
 <div class="m-6 p-4 w-[90%] px-20">
  <div class="flex  gap-60 items-center py-8 w-[70%] mx-auto ">
-        <div class="  flex gap-4 w-[40%] px-4 py-2 bg-[#EFF2F6] rounded-xl">
+        <!-- <div class="  flex gap-4 w-[40%] px-4 py-2 bg-[#EFF2F6] rounded-xl">
         <img src="/assets/Images/search.svg" alt="">
         <input type="text" placeholder="Search" class="border-0 outline-none bg-[#EFF2F6]">
-       </div>
-       <div class="flex gap-4 items-center cursor-pointer">
+       </div> -->
+       <!-- <div class="flex gap-4 items-center cursor-pointer">
              <button mat-button [matMenuTriggerFor]="beforeMenu" class="flex items-center gap-4 border px-2 py-2 rounded-md">
                 <span class="text-[#003CAB]">Filter</span>
                 <img src="assets/Images/keyboard_arrow_down_24px.svg" alt="">
@@ -40,7 +40,7 @@
                 <button  class="text-[#6E7A91] py-2 px-2 hover:rounded-md hover:bg-[#F8F9FB] hover:w-full hover:text-left hover:items-center">Market Cap</button>
                 
             </mat-menu>
-       </div>
+       </div> -->
        </div>
   <!-- <table class="  lg:w-[90%]">
   <thead class=" w-full ">
@@ -66,47 +66,52 @@
 
 </pagination-controls> -->
 
-<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event) "
-       class="mat-elevation-z8 w-full shadow-none border border-solid rounded-lg">
+<mat-form-field appearance="standard" >
+ <mat-label class="text-white">Filter</mat-label>
+ <input type="text" matInput (keyup)="applyFilter($event)" #input placeholder="Filter">
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort 
+       class="mat-elevation-z8 w-full shadow-none border border-solid rounded-lg bg-[#212121] ">
 
   <!-- Position Column -->
-  <ng-container matColumnDef="symbol">
-    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+  <ng-container matColumnDef="symbol" >
+    <th   class="text-white" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
       Symbol
     </th>
-    <td  class="text-center flex gap-2 items-center" mat-cell *matCellDef="let element">
-      <!-- <img [src]="element.image" alt="" class="w-[20px]"> -->
-     <div>
+    <td class="flex  gap-2 "  mat-cell *matCellDef="let element">
+      <img [src]="element.image" alt="" class="w-[20px]">
+     <div class="text-white">
        {{element.symbol}}
      </div> </td>
   </ng-container>
 
   <!-- Name Column -->
   <ng-container matColumnDef="currentPrice" class="border-0">
-    <th  class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by currentPrice">
+    <th class="text-white"  mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by currentPrice">
       Current Price
     </th>
-    <td   class="text-center" mat-cell *matCellDef="let element"> {{element.current_price}} </td>
+    <td  class="text-white"   mat-cell *matCellDef="let element"> {{element.current_price}} </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="price_change_percentage_24h">
-    <th  class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price_change_percentage_24h">
+    <th class="text-white"   mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price_change_percentage_24h">
       price change in 24h
     </th>
-    <td  class="text-center" mat-cell *matCellDef="let element"> {{element.price_change_percentage_24h}}% </td>
+    <td class="text-white"  mat-cell *matCellDef="let element"> {{element.price_change_percentage_24h}}% </td>
   </ng-container>
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="Market_Cap">
-    <th  class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market_cap">
+    <th class="text-white"  mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market_cap">
       Market Capitalization
     </th>
-    <td   class="text-center" mat-cell *matCellDef="let element"> {{element.market_cap}} </td>
+    <td  class="text-white"  mat-cell *matCellDef="let element"> {{element.market_cap}} </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-[#009688]"></tr>
+  <tr (click)="details(row)" class="cursor-pointer"  mat-row *matRowDef="let row; columns: displayedColumns;  "></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select Page Of Users"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select Page Of Users" class="bg-[#000] text-white"></mat-paginator>
 </div>
