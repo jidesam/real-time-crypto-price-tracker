@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TrendingCoinsService } from 'src/app/service/trending-coins.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-coin-list',
@@ -17,7 +18,8 @@ export class CoinListComponent implements OnInit {
  @ViewChild(MatPaginator) paginator!: MatPaginator
  @ViewChild(MatSort) sort!: MatSort
 
-  constructor(private coinService : TrendingCoinsService) { }
+  constructor(private coinService : TrendingCoinsService,
+            private router : Router) { }
  p: number = 1;
   ngOnInit(): void {
     this.getBanner()
@@ -40,11 +42,12 @@ export class CoinListComponent implements OnInit {
   applyFilter(event: Event){
     const FilterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = FilterValue.trim().toLocaleLowerCase();
-
-    if (this.dataSource.paginator){
+   if (this.dataSource.paginator){
       this.dataSource.paginator.firstPage()
     }
   }
+details(row : any){
+  this.router.navigate(['coin-details', row.id])
+}
 
-  announceSortChange(event: Event){}
 }

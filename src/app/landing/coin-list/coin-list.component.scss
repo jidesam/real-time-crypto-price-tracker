@@ -8,3 +8,18 @@
         url(../../../assets/images/blockchain-3750157_1920.jpg);
         height: 80vh;
 }
+.mat-form-field{
+    font-size: 14px;
+    width: 100%;
+}
+td, th{
+    width: 25%;
+}
+input{
+   color: white;
+
+}
+
+:host ::ng-deep .mat-paginator-outer-container{
+    // background-color: rgb(36, 37, 37);
+}
