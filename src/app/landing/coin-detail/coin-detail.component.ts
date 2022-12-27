@@ -70,6 +70,9 @@ export class CoinDetailComponent implements OnInit {
  getGraphData(){
   this.service.getGraphicalCurrencyData(this.coinId, 'USD', 30)
   .subscribe(res=>{
+   setTimeout(()=>{
+    this.myLineChat.chart?.update();
+   }, 200)
     this.lineChartData.datasets[0].data = res.prices.map((a: any) =>{
       return a[1];  //secondElementInThePriceObject
     });
