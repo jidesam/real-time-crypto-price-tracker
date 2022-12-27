@@ -6,6 +6,7 @@ import { TrendingCoinsService } from 'src/app/service/trending-coins.service';
 import { Router } from '@angular/router';
 import { CurrencyService } from 'src/app/service/currency.service';
 
+
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html',

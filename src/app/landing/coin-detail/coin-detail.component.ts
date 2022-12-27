@@ -3,6 +3,7 @@ import { TrendingCoinsService } from 'src/app/service/trending-coins.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { CurrencyService } from 'src/app/service/currency.service';
 @Component({
   selector: 'app-coin-detail',
   templateUrl: './coin-detail.component.html',
@@ -45,7 +46,8 @@ export class CoinDetailComponent implements OnInit {
   @ViewChild(BaseChartDirective) myLineChat! : BaseChartDirective
 
   constructor(private service : TrendingCoinsService,
-              private activatedRoute : ActivatedRoute) { }
+              private activatedRoute : ActivatedRoute,
+              private currencyService : CurrencyService) { }
 
   ngOnInit(): void {
    
@@ -55,24 +57,35 @@ export class CoinDetailComponent implements OnInit {
     }
    )
     this.getCoinData()
-    this.getGraphData()
+    this.getGraphData(this.days)
+    this.currencyService.getCurrency()
+    .subscribe(res=>{
+      this.currency = res
+       this.getCoinData()
+      this.getGraphData(this.days)
+    })
   }
   getCoinData(){
   this.service.getCurrencyById(this.coinId)
   .subscribe(res =>{
     this.coinData = res
-   
+    console.log(this.coinData)
+   if(this.currency === "EUR"){
+    res.market_data.current_price.usd = res.market_data.current_price.eur
+    res.market_data.market_cap.usd = res.market_data.market_cap.eur
+   }
 
    
   })
   }
 
- getGraphData(){
-  this.service.getGraphicalCurrencyData(this.coinId, 'USD', 30)
+ getGraphData(days: number){
+  this.days = days
+  this.service.getGraphicalCurrencyData(this.coinId, this.currency, this.days)
   .subscribe(res=>{
    setTimeout(()=>{
     this.myLineChat.chart?.update();
-   }, 200)
+   }, 400)
     this.lineChartData.datasets[0].data = res.prices.map((a: any) =>{
       return a[1];  //secondElementInThePriceObject
     });
@@ -84,6 +97,9 @@ export class CoinDetailComponent implements OnInit {
       return this.days ===1? time : date.toLocaleDateString()
     })
   })
+  }
+  getData(event : number){
+
   }
 
 }
