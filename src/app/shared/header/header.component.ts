@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrencyService } from 'src/app/service/currency.service';
 
 @Component({
   selector: 'app-header',
@@ -6,13 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-SelectedCurrency: string = "NGR"
-  constructor() { }
+SelectedCurrency: string = "USD"
+  constructor( private currency: CurrencyService) { }
 
   ngOnInit(): void {
   }
   sendCurrency(event:string){
-    console.log(event)
+   this.currency.setCurrency(event)
   }
 
 }

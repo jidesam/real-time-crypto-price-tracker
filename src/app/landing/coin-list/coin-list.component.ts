@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TrendingCoinsService } from 'src/app/service/trending-coins.service';
 import { Router } from '@angular/router';
+import { CurrencyService } from 'src/app/service/currency.service';
 
 @Component({
   selector: 'app-coin-list',
@@ -19,20 +20,27 @@ export class CoinListComponent implements OnInit {
  @ViewChild(MatSort) sort!: MatSort
 
   constructor(private coinService : TrendingCoinsService,
-            private router : Router) { }
+            private router : Router , private currencyService : CurrencyService ) { }
  p: number = 1;
+  currency: string = 'USD'
   ngOnInit(): void {
     this.getBanner()
     this.getALlCOins()
+    this.currencyService.getCurrency()
+    .subscribe(val =>{
+      this.currency = val
+    })
   }
   getBanner(){
-    this.coinService.getTrendingCurrency("USD")
+    this.coinService.getTrendingCurrency(this.currency)
     .subscribe(res =>{
-     this.bannaData = res
+     this.bannaData = res;
+     this.getALlCOins();
+     this.getBanner();
     })
   }
   getALlCOins(){
-    this.coinService.getAllCOins('USD')
+    this.coinService.getAllCOins(this.currency)
     .subscribe(res=>{
       this.dataSource =new MatTableDataSource(res)
       this.dataSource.paginator = this.paginator
