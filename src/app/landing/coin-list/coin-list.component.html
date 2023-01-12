@@ -8,10 +8,10 @@
   <div class="animations flex flex-wrap lg:grid lg:grid-cols-5 mx-auto  h-[60vh] overflow-hidden  ">
     <div *ngFor="let banner of bannaData" class=" " >
      <div>
-       <div class="bg-white w-[100px] lg:w-[200px] mx-4 border border-solid my-4 rounded-lg cursor-pointer">
-       <img [src]="banner?.image" alt="" class="w-[150px] mx-auto px-4 py-4">
-       <div class="text-center font-medium">{{banner.symbol | uppercase}} <span class="text-red-500 font-normal text-center">{{banner.price_change_percentage_24h}}%</span></div>
-       <p >{{banner.current_price | currency: currency}}</p>
+       <div class="bg-white w-[100px] lg:w-[200px] mx-4 border border-solid my-4 rounded-lg cursor-pointer text-center">
+         <p class="text-3xl">{{banner.current_price | currency: currency}}</p>
+         <img [src]="banner?.image" alt="" class="w-[80px] mx-auto px-4 py-4">
+         <div class="text-center font-medium">{{banner.symbol | uppercase}} <span class="text-red-500 font-normal text-center">{{banner.price_change_percentage_24h}}%</span></div>
       </div>
      </div>
     </div>
